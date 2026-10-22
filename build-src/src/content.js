@@ -99,3 +99,6 @@ function renderAI(x,i){const head=`<div class="xnp-aih"><button data-act="fold" 
  <div class="xnp-grid">${shown.map(f=>`<div><span class="xnp-dot ${lc(f.level)}"></span>${esc(f.name||'')}・${esc(f.level||'')}</div><div class="xnp-fn">${esc(f.note||'')}</div>`).join('')||'<div>各項都是「無」</div><div></div>'}</div>
  ${fs.length?`<button data-act="all" data-i="${i}" class="xnp-fold">${x.aiAll?'只看有問題的':'顯示全部'}</button>`:''}
  ${Array.isArray(j.suggestions)&&j.suggestions.length?`<ul class="xnp-sug">${j.suggestions.slice(0,3).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:''}</div></div>`;}
+// ---- 滑鼠停留顯示大圖 (v0.6) ----
+import { initZoom } from './zoom.js';
+initZoom({ labelFor: src => { const s = cache.get(normUrl(src)); if (s === undefined) return null; const [c, t] = lvl(s); return { text: `${t} ${fmt(s)}`, color: { ok: '#2e7d32', warn: '#e69500', high: '#c62828' }[c] }; } });

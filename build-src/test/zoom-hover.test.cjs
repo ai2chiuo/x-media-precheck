@@ -1,0 +1,31 @@
+// jsdom: hovering a tweet photo shows the preview with the upgraded URL; Esc hides it; panel/attachments ignored
+const { JSDOM } = require('jsdom'); const fs = require('fs'); const path = require('path');
+const code = fs.readFileSync(process.argv[2] || path.join(__dirname, '../../extension/content.js'), 'utf8');
+const dom = new JSDOM(`<body><article><div data-testid="tweetPhoto"><img id="p" src="https://pbs.twimg.com/media/AAA?format=jpg&name=small"></div></article><div data-testid="attachments"><img id="a" src="https://pbs.twimg.com/media/BBB?format=jpg&name=small"></div></body>`, { runScripts: 'outside-only', pretendToBeVisual: true });
+const w = dom.window; w.IntersectionObserver = class { observe() {} unobserve() {} };
+w.chrome = { storage: { local: { get: async () => ({}), set: async () => {} }, onChanged: { addListener() {} } }, runtime: { onMessage: { addListener() {} }, sendMessage: async () => ({}) } };
+w.console.debug = () => {}; w.eval(code);
+const sleep = ms => new Promise(r => setTimeout(r, ms)); let fail = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fail++; };
+const over = id => w.document.getElementById(id).dispatchEvent(new w.MouseEvent('mouseover', { bubbles: true, clientX: 100, clientY: 100 }));
+(async () => {
+  await sleep(50); over('p'); await sleep(150);
+  const z = () => w.document.getElementById('xnp-zoom');
+  ok(!z() || z().style.display === 'none', 'no preview before 300ms');
+  await sleep(250);
+  ok(z() && z().style.display === 'block', 'preview shown after hover');
+  ok(z() && z().querySelector('img').getAttribute('src') === 'https://pbs.twimg.com/media/AAA?format=jpg&name=orig', 'preview uses name=orig');
+  ok(z() && w.getComputedStyle(z()).pointerEvents === 'none', 'pointer-events none');
+  w.document.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  ok(z().style.display === 'none', 'Esc hides');
+  over('p'); await sleep(400);
+  const ce = new w.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 }); w.document.getElementById('p').dispatchEvent(ce);
+  ok(ce.defaultPrevented && z().style.pointerEvents === 'auto', 'right-click pins (menu suppressed, interactive)');
+  ok(w.document.getElementById('xnp-zoom-bd').style.display === 'block', 'backdrop shown');
+  w.dispatchEvent(new w.Event('scroll')); ok(z().style.display === 'block', 'pinned survives scroll');
+  const bdEv = new w.MouseEvent('mousedown', { bubbles: true, button: 0 }); w.document.getElementById('xnp-zoom-bd').dispatchEvent(bdEv);
+  ok(z().style.display === 'none' && w.document.getElementById('xnp-zoom-bd').style.display === 'none', 'click backdrop closes');
+  const ce2 = new w.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 }); w.document.body.dispatchEvent(ce2);
+  ok(!ce2.defaultPrevented, 'right-click elsewhere keeps browser menu');
+  over('a'); await sleep(400); ok(z().style.display === 'none', 'compose attachments ignored');
+  process.exit(fail ? 1 : 0);
+})();

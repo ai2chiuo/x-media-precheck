@@ -1,7 +1,7 @@
 {
  "manifest_version": 3,
  "name": "Sensitive-Media Pre-check for X",
- "version": "0.5.6",
+ "version": "0.6.0",
  "description": "Locally estimate whether images/videos you post on X may be marked sensitive. Not affiliated with X. 發文前敏感媒體預檢。",
  "permissions": [
   "storage",

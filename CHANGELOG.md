@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 — 2026-10-22
+- New: Imagus-style hover zoom on x.com/twitter.com (toggle 「滑鼠停留顯示大圖」, default on). Hover a tweet photo, avatar, card image or video poster for 300 ms to see the original-size image (`name=orig`, full-size avatars) fitted to the viewport; shows the local NSFW label if already scanned. Hidden on mouse leave, scroll, Esc, click; hold Shift to disable.
+- Right-click while the preview is shown pins it centered with a dark backdrop: wheel to zoom, drag to pan; close with right-click, Esc or clicking the backdrop. Right-click elsewhere keeps the normal browser menu.
+- Tests: `test/zoom-url.test.mjs`, `test/zoom-hover.test.cjs`. No new permissions.
+
 ## 0.5.6 — 2026-10-22
 - Fixed: compose panel list disappeared when opening the content disclosure (內容揭露 / AI-generated) setting. Attachment removals are now debounced (1.5 s), items are re-matched by stable image identity (blob/src) after re-renders, and the list is kept while a dialog/sheet is open or the attachments container is temporarily unmounted. AI verdicts are kept. Still cleared after posting or via ✕ / 清空.
 - Added jsdom regression test (`build-src/test/attachments.test.cjs`, `npm test`).
