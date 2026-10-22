@@ -8,14 +8,25 @@ function finalCls(x){const lc=localCls(x);const r=x.aiRisk;const rank={unk:0,ok:
 let pending=[]; // {key,name,kind,score,el}
 const memo=new Map();
 function attEls(){return [...document.querySelectorAll('[data-testid="attachments"] img,[data-testid="attachments"] video')].filter(e=>!e.closest('#xnp-panel'));}
-let syncT=null;function scheduleSync(){clearTimeout(syncT);syncT=setTimeout(syncAtt,400);}
-function syncAtt(){if(!pending.length)return;const els=attEls();const before=pending.length;const now=Date.now();
- if(!els.length){pending=pending.filter(x=>now-x.t<6000);if(pending.length)scheduleSync();}
- else{pending=pending.filter(x=>!x.el||x.el.isConnected||els.length>=pending.length);
-  const used=new Set(pending.map(x=>x.el).filter(e=>e&&e.isConnected));const free=els.filter(e=>!used.has(e));
-  for(const x of pending)if(!x.el||!x.el.isConnected){x.el=free.shift()||null;}
-  if(els.length<pending.length){const unb=pending.filter(x=>!x.el&&now-x.t>6000);pending=pending.filter(x=>!unb.includes(x));}}
- if(pending.length!==before){if(panel&&panel.style.display!=='none')render();}}
+let syncT=null;function scheduleSync(ms){clearTimeout(syncT);syncT=setTimeout(syncAtt,ms||400);}
+const GRACE=1500,NEW_GRACE=6000;
+const srcKey=e=>e.tagName==='VIDEO'?(e.poster||e.currentSrc||e.src||''):(e.currentSrc||e.src||'');
+function composeState(){const ed=document.querySelector('[data-testid^="tweetTextarea_"],[data-testid="tweetTextarea_0"]');
+ const overlay=[...document.querySelectorAll('[role="dialog"],[data-testid="sheetDialog"],[role="menu"]')].some(d=>!ed||!d.contains(ed));return {ed:!!ed,overlay};}
+function syncAtt(){if(!pending.length)return;const els=attEls();const before=pending.length;const now=Date.now();const cs=composeState();
+ // 1) 依穩定識別（blob/src）重新配對，再用順序補配
+ const bySrc=new Map(els.map(e=>[srcKey(e),e]));const used=new Set();
+ for(const x of pending){let e=null;if(x.src&&bySrc.has(x.src))e=bySrc.get(x.src);else if(x.el&&x.el.isConnected&&els.includes(x.el))e=x.el;if(e&&!used.has(e)){x.el=e;used.add(e);x.src=srcKey(e)||x.src;x.miss=0;}else{x.el=null;}}
+ const free=els.filter(e=>!used.has(e));
+ for(const x of pending)if(!x.el&&free.length&&!x.src){const e=free.shift();x.el=e;x.src=srcKey(e);x.miss=0;used.add(e);}
+ // 2) 沒配到的：記下開始缺席時間；只有缺席超過 GRACE、發文框還在、沒有其他對話框時才移除
+ for(const x of pending)if(!x.el&&!x.miss)x.miss=now;
+ const transient=cs.overlay||(!cs.ed&&!els.length);
+ pending=pending.filter(x=>{if(x.el)return true;if(!x.src&&now-x.t<NEW_GRACE)return true;if(now-x.miss<GRACE)return true;
+  if(!cs.ed)return cs.overlay; // 發文框不見：有對話框時視為暫時，否則清掉
+  if(transient)return true;return false;});
+ if(pending.some(x=>!x.el))scheduleSync(GRACE/2);
+ if(pending.length!==before){dbg('attachments sync',before,'->',pending.length);if(panel&&panel.style.display!=='none')render();}}
 new MutationObserver(()=>{if(pending.length)scheduleSync();}).observe(document.documentElement,{childList:true,subtree:true});
 const risk=p=>{const g=k=>(p.find(x=>x.className===k)||{}).probability||0;return Math.min(1,g('Porn')+g('Hentai')+0.6*g('Sexy'));};
 const fmt=s=>(s*100).toFixed(0)+'%';

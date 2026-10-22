@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.6 — 2026-10-22
+- Fixed: compose panel list disappeared when opening the content disclosure (內容揭露 / AI-generated) setting. Attachment removals are now debounced (1.5 s), items are re-matched by stable image identity (blob/src) after re-renders, and the list is kept while a dialog/sheet is open or the attachments container is temporarily unmounted. AI verdicts are kept. Still cleared after posting or via ✕ / 清空.
+- Added jsdom regression test (`build-src/test/attachments.test.cjs`, `npm test`).
+
 ## 0.5.5 — 2026-10-22
 - Renamed to "Sensitive-Media Pre-check for X" / 發文前敏感媒體預檢; added 16/48/128 icons.
 - Removed unused `https://video.twimg.com/*` permission and the legacy fetch handler.
