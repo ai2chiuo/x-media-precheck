@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.3 — 2026-10-22
+- zoom.js now runs at document_start so its Esc handler registers before page handlers (fixes Grok Imagine going back on Esc).
+
 ## 0.7.2 — 2026-10-22
 - Esc while a preview is shown or pinned is swallowed so the page (e.g. X photo viewer) no longer navigates back.
 
