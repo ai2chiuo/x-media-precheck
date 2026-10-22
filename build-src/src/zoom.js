@@ -2,6 +2,7 @@
 import { upgradeUrl, largestFromSrcset, isImageLink, skipHost } from './zoom-url.js';
 
 const MIN = 40, BIG = 1.15, DELAY = 300;
+let lastPin = null;
 let on = true, siteOff = false, pinned = false, sc = 1, tx = 0, ty = 0, drag = null;
 let timer = null, cur = null, lastXY = [0, 0], host = null, root, box, img, spin, tag, bd, probe = null;
 
@@ -123,8 +124,21 @@ document.addEventListener('mouseover', e => {
   if (cur && cur.el === c.el) return;
   hide(); timer = setTimeout(() => { timer = null; maybeShow(c); }, DELAY);
 }, true);
+function panTo(e) {
+  if (!box || !pinned) return;
+  const W = innerWidth, H = innerHeight, m = 24;
+  const ow = (box.offsetWidth || 0) * sc, oh = (box.offsetHeight || 0) * sc;
+  const ex = Math.max(0, ow - W + 2 * m), ey = Math.max(0, oh - H + 2 * m);
+  tx = (0.5 - e.clientX / W) * ex; ty = (0.5 - e.clientY / H) * ey; place();
+}
 document.addEventListener('mousemove', e => {
-  if (pinned) { if (drag) { tx = drag.tx + e.clientX - drag.x; ty = drag.ty + e.clientY - drag.y; place(); } return; }
+  if (pinned) {
+    lastPin = e;
+    if (drag) { tx = drag.tx + e.clientX - drag.x; ty = drag.ty + e.clientY - drag.y; place(); return; }
+    // Mouse-follow pan: when the zoomed image exceeds the viewport, moving the mouse scrolls it (Imagus-style).
+    panTo(e);
+    return;
+  }
   lastXY = [e.clientX, e.clientY]; if (e.shiftKey && (cur || timer)) hide(); else if (cur) place();
 }, true);
 document.addEventListener('mouseout', e => {
@@ -134,7 +148,7 @@ document.addEventListener('mouseout', e => {
 }, true);
 document.addEventListener('mouseup', () => { if (drag) { drag = null; box && box.classList.remove('drag'); } }, true);
 addEventListener('scroll', () => { if (!pinned && (cur || timer)) hide(); }, true);
-addEventListener('wheel', e => { if (!pinned) return; e.preventDefault(); e.stopPropagation(); sc = Math.min(8, Math.max(0.2, sc * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); place(); }, { capture: true, passive: false });
+addEventListener('wheel', e => { if (!pinned) return; e.preventDefault(); e.stopPropagation(); sc = Math.min(8, Math.max(0.2, sc * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); place(); if (!drag) { lastPin = e; panTo(e); } }, { capture: true, passive: false });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' || (e.key === 'Shift' && !pinned)) { if (cur || timer) hide(); } }, true);
 document.addEventListener('mousedown', e => { if (pinned) return; if (e.button === 0 && (cur || timer)) hide(); }, true);
 document.addEventListener('contextmenu', e => {

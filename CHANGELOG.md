@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.1 — 2026-10-22
+- Pinned preview: moving the mouse pans a zoomed image larger than the screen (Imagus-style).
+
 ## 0.7.0 — 2026-10-22
 - Hover zoom now works on **all websites** as a separate lightweight content script (`zoom.js`, ~9 KB, `<all_urls>`, top frame only). The NSFW pre-check (`content.js`) still runs only on x.com / twitter.com.
 - Generic rules: `<img>` shown smaller than its natural size, largest `srcset` candidate, `data-src` / `data-original`, links pointing directly to image files, CSS background images; skips images < 40 px and images already at full size. Site rules: X (`name=orig`, full-size avatars), Reddit (preview.redd.it → i.redd.it), Imgur (size suffix removed), Wikimedia (thumb → original); Pixiv skipped.
