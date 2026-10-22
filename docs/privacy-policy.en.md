@@ -1,7 +1,7 @@
 # Privacy Policy — X Post Sensitive-Media Pre-check
 
 Last updated: October 21, 2026 (applies to version 0.7.0)
-URL: [PRIVACY_POLICY_URL]
+URL: https://github.com/ai2chiuo/x-media-precheck/blob/main/docs/privacy-policy.en.md
 
 ## Summary
 This extension estimates, before you post on X (x.com), how likely your images or videos are to be treated as sensitive media. **We run no servers. We do not collect, upload, or sell any data, and the extension contains no analytics or tracking.**
@@ -35,4 +35,4 @@ This extension estimates, before you post on X (x.com), how likely your images o
 Uninstalling removes all local data. You can also clear the counter in the popup.
 
 ## Contact
-[聯絡信箱]
+xoman222@gmail.com
