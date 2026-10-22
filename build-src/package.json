@@ -1,0 +1,2 @@
+{"name":"x-sensitive-media-precheck-build","private":true,"type":"module","scripts":{"build":"node build.mjs"},
+"dependencies":{"@tensorflow/tfjs":"4.22.0","nsfwjs":"4.3.0"},"devDependencies":{"esbuild":"0.28.2"}}

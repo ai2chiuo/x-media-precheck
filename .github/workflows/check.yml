@@ -1,0 +1,23 @@
+name: check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check
+        run: for f in extension/*.js build-src/src/*.js build-src/build.mjs; do node --check "$f"; done
+      - name: Validate manifest
+        run: |
+          node -e '
+          const fs=require("fs");const m=JSON.parse(fs.readFileSync("extension/manifest.json","utf8"));
+          const need=["manifest_version","name","version","background","content_scripts"];
+          for(const k of need) if(!m[k]) throw new Error("missing "+k);
+          if(m.manifest_version!==3) throw new Error("must be MV3");
+          if((m.description||"").length>132) throw new Error("description > 132 chars");
+          const files=[m.background.service_worker,...m.content_scripts.flatMap(c=>[...(c.js||[]),...(c.css||[])]),m.action.default_popup,...Object.values(m.icons||{})];
+          for(const f of files) if(!fs.existsSync("extension/"+f)) throw new Error("missing file "+f);
+          console.log("manifest OK", m.version);'

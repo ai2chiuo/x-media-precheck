@@ -1,0 +1,21 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><style>
+body{width:320px;margin:0;padding:10px 12px;font:13px/1.5 sans-serif}h3{margin:0 0 6px}.n{color:#888;font-size:11px}
+input[type=password],input[type=text],select{width:100%;box-sizing:border-box;margin:2px 0 6px;font-size:13px}
+</style></head><body>
+<h3>發文前敏感媒體預檢</h3><div id="s">讀取中…</div>
+<p><label><input type="checkbox" id="tl"> 掃描時間軸圖片</label><br><span class="n">只掃畫面上看得到的圖片，影片用封面圖</span></p>
+<p><b>問 AI（OpenAI）</b><br>API 金鑰：<input type="password" id="k" autocomplete="off">
+模型：<select id="ms">
+<option value="gpt-4.1-mini-2025-04-14">gpt-4.1-mini（推薦，準確又便宜）</option>
+<option value="gpt-4.1-nano-2025-04-14">gpt-4.1-nano（最便宜，判斷較粗）</option>
+<option value="gpt-4o-mini-2024-07-18">gpt-4o-mini（較舊，便宜穩定）</option>
+<option value="gpt-5-mini-2025-08-07">gpt-5-mini（較聰明，較慢）</option>
+<option value="gpt-5.4-mini-2026-03-17">gpt-5.4-mini（較新，較慢）</option>
+<option value="__custom">自訂…</option></select>
+<input type="text" id="mc" placeholder="輸入模型名稱" style="display:none">
+<span class="n">以上都在 OpenAI 免費額度小模型組（需開啟資料分享且有資格）</span><br>
+<button id="sv">儲存</button> <span id="ok" style="color:green"></span><br>
+<span class="n">按「問 AI」才會把縮圖（最長邊 768px）傳給 OpenAI。金鑰只存在這台電腦的擴充功能儲存區。</span></p>
+<p><button id="c">清除 24h 發文計數</button></p>
+<p class="n">本機 NSFWJS 估計，不是 X 的模型。計數只算從這台電腦、經這個擴充功能偵測到的發文。</p>
+<script src="popup.js"></script></body></html>

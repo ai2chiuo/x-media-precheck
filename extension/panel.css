@@ -1,0 +1,15 @@
+#xnp-panel{display:none;position:fixed;right:16px;bottom:16px;z-index:2147483647;width:300px;max-height:60vh;overflow:auto;background:#fff;color:#111;font:13px/1.5 sans-serif;border-radius:10px;padding:10px 12px;box-shadow:0 4px 18px rgba(0,0,0,.3);border-left:6px solid #2e7d32}
+#xnp-panel.lv-warn{border-left-color:#f9a825}#xnp-panel.lv-high{border-left-color:#c62828}
+#xnp-panel ul{margin:6px 0;padding-left:18px}#xnp-panel li.high{color:#c62828;font-weight:bold}#xnp-panel li.warn{color:#b26a00}#xnp-panel li.unk{color:#777}
+#xnp-panel .w{color:#c62828;font-weight:bold;margin:4px 0}#xnp-panel .s{color:#444;margin-top:4px}#xnp-panel .n{color:#888;font-size:11px;margin-top:4px}
+#xnp-x{float:right;cursor:pointer;color:#888}
+.xnp-badge{position:absolute;top:6px;left:6px;z-index:10;pointer-events:auto;cursor:help;font:bold 11px/1.4 sans-serif;padding:1px 6px;border-radius:8px;color:#fff;background:#2e7d32;opacity:.92}
+.xnp-badge.warn{background:#e69500}.xnp-badge.high{background:#c62828}.xnp-badge.unk{background:#666}
+#xnp-panel .xnp-ask,.xnp-ask{all:unset;display:inline-block;margin-left:6px;font-size:12px;line-height:18px;padding:1px 8px;border-radius:9px;background:#1d9bf0 !important;color:#fff !important;font-weight:600;cursor:pointer}.xnp-ask:hover{background:#1a8cd8 !important}.xnp-ask:disabled{opacity:.6;cursor:wait}
+.xnp-ai{white-space:pre-wrap;font-weight:normal;color:#222;background:#f4f4f4;border-radius:6px;padding:6px;margin:4px 0;font-size:12px}
+#xnp-panel .xnp-ai{white-space:normal;max-height:220px;overflow:auto;font-weight:normal}
+.xnp-aih{font-weight:bold;font-size:12px;margin-bottom:3px}.xnp-fold{float:right;font-size:11px;padding:0 5px;cursor:pointer;background:#fff;border:1px solid #bbb;border-radius:4px}
+.xnp-pill{display:inline-block;color:#fff;border-radius:9px;padding:0 7px;font-weight:bold;font-size:11px}.xnp-pill.lo{background:#2e7d32}.xnp-pill.mid{background:#e69500}.xnp-pill.hi{background:#c62828}
+.xnp-grid{display:grid;grid-template-columns:auto 1fr;gap:1px 8px;margin:4px 0;font-size:11px}.xnp-fn{color:#555}
+.xnp-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}.xnp-dot.lo{background:#2e7d32}.xnp-dot.mid{background:#e69500}.xnp-dot.hi{background:#c62828}
+.xnp-sug{margin:3px 0 0;padding-left:16px;font-size:11px}
