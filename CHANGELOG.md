@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.2 — 2026-10-22
+- Esc while a preview is shown or pinned is swallowed so the page (e.g. X photo viewer) no longer navigates back.
+
 ## 0.7.1 — 2026-10-22
 - Pinned preview: moving the mouse pans a zoomed image larger than the screen (Imagus-style).
 

@@ -149,7 +149,14 @@ document.addEventListener('mouseout', e => {
 document.addEventListener('mouseup', () => { if (drag) { drag = null; box && box.classList.remove('drag'); } }, true);
 addEventListener('scroll', () => { if (!pinned && (cur || timer)) hide(); }, true);
 addEventListener('wheel', e => { if (!pinned) return; e.preventDefault(); e.stopPropagation(); sc = Math.min(8, Math.max(0.2, sc * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); place(); if (!drag) { lastPin = e; panTo(e); } }, { capture: true, passive: false });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' || (e.key === 'Shift' && !pinned)) { if (cur || timer) hide(); } }, true);
+const eatEsc = e => { if (e.key === 'Escape' && (pinned || cur)) { e.preventDefault(); e.stopImmediatePropagation(); return true; } return false; };
+addEventListener('keydown', e => {
+  const eat = eatEsc(e);
+  if (eat || (e.key === 'Shift' && !pinned)) { if (cur || timer) hide(); if (eat) escUntil = Date.now() + 500; }
+}, true);
+// Swallow the matching keyup too so pages (e.g. X photo viewer) that act on keyup don't navigate back.
+let escUntil = 0;
+addEventListener('keyup', e => { if (e.key === 'Escape' && Date.now() < escUntil) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
 document.addEventListener('mousedown', e => { if (pinned) return; if (e.button === 0 && (cur || timer)) hide(); }, true);
 document.addEventListener('contextmenu', e => {
   if (pinned) { e.preventDefault(); e.stopPropagation(); hide(); return; }
