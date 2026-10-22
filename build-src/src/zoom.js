@@ -15,8 +15,8 @@ function ensure() {
   :host{all:initial}
   .bd{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;pointer-events:auto}
   .box{position:fixed;display:none;pointer-events:none;background:#111;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.5);padding:2px;transform-origin:center center}
-  .box.pin{pointer-events:auto;cursor:grab}.box.drag{cursor:grabbing}
-  img{display:none;max-width:none;max-height:none;border-radius:6px;user-select:none;-webkit-user-drag:none}
+  .box.pin{pointer-events:auto;cursor:default}.box.drag{cursor:grabbing}
+  img{display:none;max-width:none;max-height:none;border-radius:6px;user-select:none}
   .spin{color:#fff;font:12px sans-serif;padding:8px 12px}
   .tag{position:absolute;top:8px;left:8px;font:bold 11px/1.4 sans-serif;padding:1px 6px;border-radius:8px;color:#fff;display:none}
   </style><div class="bd"></div><div class="box"><div class="spin">載入中…</div><img alt=""><div class="tag"></div></div>`;
@@ -24,7 +24,9 @@ function ensure() {
   img.onload = () => { if (!cur) return; spin.style.display = 'none'; img.style.display = 'block'; place(); };
   img.onerror = () => { if (!cur) return; spin.textContent = '無法載入圖片'; place(); };
   bd.addEventListener('mousedown', e => { if (e.button === 0) { e.preventDefault(); e.stopPropagation(); hide(); } });
-  box.addEventListener('mousedown', e => { if (pinned && e.button === 0) { e.preventDefault(); e.stopPropagation(); drag = { x: e.clientX, y: e.clientY, tx, ty }; box.classList.add('drag'); } });
+  // Pinned: left-press on the image starts a native drag (to another tab/desktop); don't let the page see it.
+  box.addEventListener('mousedown', e => { if (pinned && e.button === 0) e.stopPropagation(); });
+  img.draggable = true;
   (document.body || document.documentElement).appendChild(host);
 }
 
@@ -159,7 +161,7 @@ let escUntil = 0;
 addEventListener('keyup', e => { if (e.key === 'Escape' && Date.now() < escUntil) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
 document.addEventListener('mousedown', e => { if (pinned) return; if (e.button === 0 && (cur || timer)) hide(); }, true);
 document.addEventListener('contextmenu', e => {
-  if (pinned) { e.preventDefault(); e.stopPropagation(); hide(); return; }
+  if (pinned) { e.stopImmediatePropagation(); return; } // pinned: let the native menu (e.g. Save image as) show
   if (cur && box && box.style.display === 'block') { e.preventDefault(); e.stopPropagation(); pinned = true; clearTimeout(timer); bd.style.display = 'block'; box.classList.add('pin'); place(); }
 }, true);
 

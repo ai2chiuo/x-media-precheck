@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.4 — 2026-10-22
+- Pinned preview: right-click shows the native context menu (Save image as…); the image can be dragged to another tab or the desktop. Manual drag-pan removed (mouse-follow pan replaces it). Close with Esc or by clicking the background.
+
 ## 0.7.3 — 2026-10-22
 - zoom.js now runs at document_start so its Esc handler registers before page handlers (fixes Grok Imagine going back on Esc).
 
