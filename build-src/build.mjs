@@ -8,5 +8,6 @@ const onlyInception = { name: 'only-inception', setup(b) {
     loader: 'js' }));
 } };
 await esbuild.build({ entryPoints: ['src/content.js'], bundle: true, minify: true, format: 'iife', outfile: OUT + 'content.js', logLevel: 'warning' });
+await esbuild.build({ entryPoints: ['src/zoom.js'], bundle: true, minify: true, format: 'iife', outfile: OUT + 'zoom.js', logLevel: 'warning' });
 await esbuild.build({ entryPoints: ['src/offscreen.js'], bundle: true, minify: true, format: 'iife', outfile: OUT + 'offscreen.js', logLevel: 'warning', plugins: [onlyInception] });
-console.log('Built extension/content.js and extension/offscreen.js');
+console.log('Built extension/content.js, zoom.js and offscreen.js');

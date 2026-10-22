@@ -11,3 +11,4 @@ chrome.storage.local.get(['openaiKey','openaiModel','scanTimeline']).then(r=>{tl
  if([...ms.options].some(o=>o.value===m&&m!=='__custom'))ms.value=m;else{ms.value='__custom';mc.value=m;}showCustom();});
 $('sv').onclick=async()=>{const model=ms.value==='__custom'?(mc.value.trim()||DEF):ms.value;const o={openaiModel:model};if(k.value.trim())o.openaiKey=k.value.trim();await chrome.storage.local.set(o);k.value='';if(o.openaiKey)k.placeholder=mask(o.openaiKey);$('ok').textContent='已儲存：'+model;};
 const hz=$('hz');chrome.storage.local.get('hoverZoom').then(r=>{hz.checked=r.hoverZoom!==false;});hz.onchange=()=>chrome.storage.local.set({hoverZoom:hz.checked});
+const zd=$('zd');chrome.storage.local.get('zoomDisabledSites').then(r=>{zd.value=r.zoomDisabledSites||'';});$('zds').onclick=async()=>{await chrome.storage.local.set({zoomDisabledSites:zd.value.trim()});$('zdok').textContent='已儲存';};

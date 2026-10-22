@@ -11,8 +11,10 @@ A Chrome / Brave (MV3) extension that **estimates locally, before you post on X 
 - **24h counter**: logs media posts when you click Post and warns when you have 2 flagged media posts in 24h (a 3rd may trigger an account-level label for ~7 days), or 2 of the last 5 were high risk.
 - **Timeline badges** (optional, off by default): small risk badge on post images visible on screen (video = poster image).
 - **Ask AI / 問 AI** (optional): sends a thumbnail to OpenAI with *your own API key* and shows a compact card: risk 低/中/高, verdict, factor grid, up to 3 edit suggestions. AI 中/高 can upgrade (never downgrade) the local label.
-- **Hover zoom** (toggle, default on): hover an image ~300 ms for an original-size preview near the cursor (avatars, cards, video posters too) with its NSFW label if scanned. Shift = temporarily off; Esc/scroll/click closes. **Right-click** the preview to pin it: wheel zoom, drag to pan, right-click/Esc/backdrop to close.
+- **Hover zoom on any website** (toggle, default on; per-site disable list): hover an image ~300 ms for an original-size preview near the cursor (avatars, cards, video posters too) with its NSFW label if scanned. Shift = temporarily off; Esc/scroll/click closes. **Right-click** the preview to pin it: wheel zoom, drag to pan, right-click/Esc/backdrop to close.
 - One shared model per browser (offscreen document) — refreshing tabs doesn't reload it.
+
+> **Permission note:** because hover zoom runs on every site, Chrome shows *"Read and change all your data on all websites"* at install. The zoom script only reads image URLs on the page to show a preview; it sends nothing anywhere. Turn it off in the popup if you don't want it.
 
 ## Install (unpacked)
 1. Download/clone this repo.

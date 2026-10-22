@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 — 2026-10-22
+- Hover zoom now works on **all websites** as a separate lightweight content script (`zoom.js`, ~9 KB, `<all_urls>`, top frame only). The NSFW pre-check (`content.js`) still runs only on x.com / twitter.com.
+- Generic rules: `<img>` shown smaller than its natural size, largest `srcset` candidate, `data-src` / `data-original`, links pointing directly to image files, CSS background images; skips images < 40 px and images already at full size. Site rules: X (`name=orig`, full-size avatars), Reddit (preview.redd.it → i.redd.it), Imgur (size suffix removed), Wikimedia (thumb → original); Pixiv skipped.
+- Preview lives in a shadow DOM container to avoid page CSS conflicts. Pin mode, wheel zoom, drag, Esc and Shift unchanged.
+- Popup: per-site disable list. Note: the `<all_urls>` content script makes Chrome show "Read and change all your data on all websites". No host permissions were added and zoom sends nothing anywhere.
+
 ## 0.6.0 — 2026-10-22
 - New: Imagus-style hover zoom on x.com/twitter.com (toggle 「滑鼠停留顯示大圖」, default on). Hover a tweet photo, avatar, card image or video poster for 300 ms to see the original-size image (`name=orig`, full-size avatars) fitted to the viewport; shows the local NSFW label if already scanned. Hidden on mouse leave, scroll, Esc, click; hold Shift to disable.
 - Right-click while the preview is shown pins it centered with a dark backdrop: wheel to zoom, drag to pan; close with right-click, Esc or clicking the backdrop. Right-click elsewhere keeps the normal browser menu.
