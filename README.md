@@ -11,15 +11,20 @@ A Chrome / Brave (MV3) extension that **estimates locally, before you post on X 
 - **24h counter**: logs media posts when you click Post and warns when you have 2 flagged media posts in 24h (a 3rd may trigger an account-level label for ~7 days), or 2 of the last 5 were high risk.
 - **Timeline badges** (optional, off by default): small risk badge on post images visible on screen (video = poster image).
 - **Ask AI / 問 AI** (optional): sends a thumbnail to OpenAI with *your own API key* and shows a compact card: risk 低/中/高, verdict, factor grid, up to 3 edit suggestions. AI 中/高 can upgrade (never downgrade) the local label.
-- **Hover zoom on any website** (toggle, default on; per-site disable list): hover an image ~300 ms for an original-size preview near the cursor (avatars, cards, video posters too) with its NSFW label if scanned. Shift = temporarily off; Esc/scroll/click closes. **Right-click** the preview to pin it: wheel zoom, drag to pan, right-click/Esc/backdrop to close.
 - One shared model per browser (offscreen document) — refreshing tabs doesn't reload it.
 
-> **Permission note:** because hover zoom runs on every site, Chrome shows *"Read and change all your data on all websites"* at install. The zoom script only reads image URLs on the page to show a preview; it sends nothing anywhere. Turn it off in the popup if you don't want it.
+## Two extensions in this repo
+| Folder | Extension | Runs on | Permissions |
+|---|---|---|---|
+| `extension/` | **Sensitive-Media Pre-check for X** (this README) | x.com, twitter.com | storage, offscreen; hosts x.com, twitter.com, pbs.twimg.com, api.openai.com |
+| `zoom-extension/` | **Hover Image Zoom** — hover any image on any site for a larger preview; right-click to pin (mouse-follow pan, wheel zoom, native context menu, drag to other tabs), Esc/backdrop to close; on/off + per-site disable list | all sites (content script, top frame) | storage only |
+
+Since 1.0.0 they are separate so each has a single purpose and minimal permissions. Hover Image Zoom has no NSFW/X code; its privacy policy is [docs/hover-zoom-privacy-policy.en.md](docs/hover-zoom-privacy-policy.en.md).
 
 ## Install (unpacked)
 1. Download/clone this repo.
 2. Open `chrome://extensions` (or `brave://extensions`), enable **Developer mode**.
-3. **Load unpacked** → select the `extension/` folder.
+3. **Load unpacked** → select the `extension/` folder (and/or `zoom-extension/`).
 Requires Chrome/Brave **116+**.
 
 ## How scoring works

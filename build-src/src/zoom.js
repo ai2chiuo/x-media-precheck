@@ -137,7 +137,7 @@ document.addEventListener('mousemove', e => {
   if (pinned) {
     lastPin = e;
     if (drag) { tx = drag.tx + e.clientX - drag.x; ty = drag.ty + e.clientY - drag.y; place(); return; }
-    // Mouse-follow pan: when the zoomed image exceeds the viewport, moving the mouse scrolls it (Imagus-style).
+    // Mouse-follow pan: when the zoomed image exceeds the viewport, moving the mouse scrolls it (mouse-follow).
     panTo(e);
     return;
   }

@@ -1,6 +1,6 @@
-# Privacy Policy — X Post Sensitive-Media Pre-check
+# Privacy Policy — Sensitive-Media Pre-check for X
 
-Last updated: October 21, 2026 (applies to version 0.7.0)
+Last updated: October 22, 2026 (applies to version 1.0.0)
 URL: https://github.com/ai2chiuo/x-media-precheck/blob/main/docs/privacy-policy.en.md
 
 ## Summary
@@ -9,10 +9,6 @@ This extension estimates, before you post on X (x.com), how likely your images o
 ## Processed locally on your device
 - **Images and video frames**: media you attach in the X compose box and, if you enable "Scan timeline images", post images visible on screen are analyzed inside your browser by the open-source NSFWJS model bundled with the extension. Results never leave your device.
 - Timeline images are downloaded by the extension directly from X's image server (pbs.twimg.com) for local analysis, without your login cookies.
-
-## Hover zoom (all websites)
-- Runs on every site you visit, only reads image URLs on the page and loads the larger image directly in your browser for the preview. It does not collect, log or transmit page content or browsing history, and contacts no server of ours or any third party (images come from the original site).
-- The per-site disable list is stored only in chrome.storage.local.
 
 ## Stored locally (chrome.storage.local)
 - Media-post log: for each post only the time, whether it was flagged, whether it was high-risk, and the number of media items; max 30 days / 200 entries. No images, text, or account data. Clearable from the popup.

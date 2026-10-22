@@ -1,7 +1,7 @@
 // jsdom: hover zoom on X and on generic pages (img/srcset/link/background/size rules, pin mode)
 const { JSDOM } = require('jsdom'); const fs = require('fs'); const path = require('path');
-const EXT = path.join(__dirname, '../../extension');
-const zoomCode = fs.readFileSync(path.join(EXT, 'zoom.js'), 'utf8'), contentCode = fs.readFileSync(path.join(EXT, 'content.js'), 'utf8');
+const EXT = path.join(__dirname, '../../extension'), ZEXT = path.join(__dirname, '../../zoom-extension');
+const zoomCode = fs.readFileSync(path.join(ZEXT, 'zoom.js'), 'utf8'), contentCode = fs.readFileSync(path.join(EXT, 'content.js'), 'utf8');
 const sleep = ms => new Promise(r => setTimeout(r, ms)); let fail = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fail++; };
 function page(html, url, store = {}, withContent = false) {
   const dom = new JSDOM(`<body>${html}</body>`, { url, runScripts: 'outside-only', pretendToBeVisual: true }); const w = dom.window;

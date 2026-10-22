@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 — 2026-10-22
+- **Split into two extensions** for the Chrome Web Store (single purpose, minimal permissions):
+  - `extension/` — **Sensitive-Media Pre-check for X** 1.0.0: x.com/twitter.com only. Hover zoom, the `<all_urls>` content script and the zoom settings in the popup were removed. Everything else unchanged.
+  - `zoom-extension/` — **Hover Image Zoom** (圖片懸停放大) 1.0.0: the hover-zoom feature from 0.7.4 as its own extension. Permissions: `storage` + `<all_urls>` content script only; no background, no host permissions, no remote code. Own popup (on/off, per-site disable list) and icons. The NSFW label overlay only appears if the pre-check is in the same script context, so in the split build it never shows.
+- `build-src/build.mjs` builds both; `npm test` adds a manifest check for both packages. New privacy policy: `docs/hover-zoom-privacy-policy.{zh-TW,en}.md`.
+
 ## 0.7.4 — 2026-10-22
 - Pinned preview: right-click shows the native context menu (Save image as…); the image can be dragged to another tab or the desktop. Manual drag-pan removed (mouse-follow pan replaces it). Close with Esc or by clicking the background.
 

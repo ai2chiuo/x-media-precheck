@@ -1,11 +1,11 @@
 # Reproducible build
 
-`extension/content.js` and `extension/offscreen.js` are generated from `src/` with esbuild.
+`extension/content.js`, `extension/offscreen.js` (Sensitive-Media Pre-check for X) and `zoom-extension/zoom.js` (Hover Image Zoom) are generated from `src/` with esbuild.
 
 ```bash
 cd build-src
 npm ci --ignore-scripts   # pinned: @tensorflow/tfjs 4.22.0, nsfwjs 4.3.0 (see package-lock.json)
-npm run build             # writes ../extension/content.js and ../extension/offscreen.js
+npm run build             # writes ../extension/{content,offscreen}.js and ../zoom-extension/zoom.js
 ```
 
 - `--ignore-scripts` is recommended; no install scripts are needed for the build.

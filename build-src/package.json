@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "test": "node test/attachments.test.cjs && node test/zoom-url.test.mjs && node test/zoom-hover.test.cjs"
+    "test": "node test/manifests.test.cjs && node test/attachments.test.cjs && node test/zoom-url.test.mjs && node test/zoom-hover.test.cjs"
   },
   "dependencies": {
     "@tensorflow/tfjs": "4.22.0",

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Sensitive-Media Pre-check for X",
-  "version": "0.7.4",
+  "version": "1.0.0",
   "description": "Locally estimate whether images/videos you post on X may be marked sensitive. Not affiliated with X. 發文前敏感媒體預檢。",
   "permissions": [
     "storage",
@@ -26,16 +26,6 @@
         "panel.css"
       ],
       "run_at": "document_idle"
-    },
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "zoom.js"
-      ],
-      "run_at": "document_start",
-      "all_frames": false
     }
   ],
   "action": {
