@@ -27,6 +27,8 @@ function ensure() {
   // Pinned: left-press on the image starts a native drag (to another tab/desktop); don't let the page see it.
   box.addEventListener('mousedown', e => { if (pinned && e.button === 0) e.stopPropagation(); });
   img.draggable = true;
+  // Pinned: a plain left-click on the image (no drag) closes the preview, like clicking the backdrop.
+  box.addEventListener('click', e => { if (pinned && e.button === 0) { e.preventDefault(); e.stopPropagation(); hide(); } });
   (document.body || document.documentElement).appendChild(host);
 }
 
@@ -152,7 +154,17 @@ document.addEventListener('mouseup', () => { if (drag) { drag = null; box && box
 addEventListener('scroll', () => { if (!pinned && (cur || timer)) hide(); }, true);
 addEventListener('wheel', e => { if (!pinned) return; e.preventDefault(); e.stopPropagation(); sc = Math.min(8, Math.max(0.2, sc * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); place(); if (!drag) { lastPin = e; panTo(e); } }, { capture: true, passive: false });
 const eatEsc = e => { if (e.key === 'Escape' && (pinned || cur)) { e.preventDefault(); e.stopImmediatePropagation(); return true; } return false; };
+// Pinned: "+" / "=" zoom in, "-" / "_" zoom out (main row and numpad).
+const zoomKey = e => {
+  if (!pinned || e.ctrlKey || e.metaKey || e.altKey) return false;
+  const k = e.key; const up = k === '+' || k === '=', down = k === '-' || k === '_';
+  if (!up && !down) return false;
+  e.preventDefault(); e.stopImmediatePropagation();
+  sc = Math.min(8, Math.max(0.2, sc * (up ? 1.25 : 1 / 1.25))); place(); if (lastPin) panTo(lastPin);
+  return true;
+};
 addEventListener('keydown', e => {
+  if (zoomKey(e)) return;
   const eat = eatEsc(e);
   if (eat || (e.key === 'Shift' && !pinned)) { if (cur || timer) hide(); if (eat) escUntil = Date.now() + 500; }
 }, true);

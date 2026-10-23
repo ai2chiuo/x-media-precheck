@@ -2,7 +2,7 @@
 const fs = require('fs'), path = require('path'); let fail = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fail++; };
 for (const dir of ['extension', 'zoom-extension']) {
   const D = path.join(__dirname, '../..', dir), m = JSON.parse(fs.readFileSync(path.join(D, 'manifest.json'), 'utf8'));
-  ok(m.manifest_version === 3 && m.version === '1.0.0' && (m.description || '').length <= 132, dir + ': MV3, 1.0.0, description <= 132');
+  ok(m.manifest_version === 3 && /^1\.0\.\d$/.test(m.version) && (m.description || '').length <= 132, dir + ': MV3, 1.0.x, description <= 132');
   const files = [m.background && m.background.service_worker, ...m.content_scripts.flatMap(c => [...(c.js || []), ...(c.css || [])]), m.action.default_popup, ...Object.values(m.icons || {})].filter(Boolean);
   ok(files.every(f => fs.existsSync(path.join(D, f))), dir + ': all referenced files exist');
   const raw = JSON.stringify(m);

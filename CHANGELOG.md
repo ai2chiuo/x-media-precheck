@@ -1,5 +1,8 @@
 # Changelog
 
+## Hover Image Zoom 1.0.1 — 2026-10-23
+- Pinned preview: left-click on the image closes it (dragging the image out still works). `+` / `=` zoom in and `-` zoom out (keyboard).
+
 ## 1.0.0 — 2026-10-22
 - **Split into two extensions** for the Chrome Web Store (single purpose, minimal permissions):
   - `extension/` — **Sensitive-Media Pre-check for X** 1.0.0: x.com/twitter.com only. Hover zoom, the `<all_urls>` content script and the zoom settings in the popup were removed. Everything else unchanged.

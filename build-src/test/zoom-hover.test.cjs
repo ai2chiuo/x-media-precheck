@@ -33,6 +33,14 @@ const C = (w, id) => { const c = w.__xnpZoom.candidate(w.document.getElementById
   const bdEl = w.document.querySelector('xnp-zoom-host').shadowRoot.querySelector('.bd'); ok(bdEl.style.display === 'block', 'backdrop shown');
   w.dispatchEvent(new w.Event('scroll')); ok(!!shownSrc(w), 'pinned survives scroll');
   bdEl.dispatchEvent(new w.MouseEvent('mousedown', { bubbles: true, button: 0 })); ok(!shownSrc(w) && bdEl.style.display === 'none', 'click backdrop closes');
+  // pinned: +/- keys and click on image
+  over(w, 'p'); await sleep(400); w.document.getElementById('p').dispatchEvent(new w.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 }));
+  const sc0 = prev(w).style.transform; const kp = new w.KeyboardEvent('keydown', { key: '+', bubbles: true, cancelable: true }); w.dispatchEvent(kp);
+  ok(kp.defaultPrevented && /scale\(1\.25\)/.test(prev(w).style.transform), '"+" zooms in when pinned');
+  w.dispatchEvent(new w.KeyboardEvent('keydown', { key: '-', bubbles: true, cancelable: true })); ok(prev(w).style.transform === sc0, '"-" zooms out');
+  w.dispatchEvent(new w.KeyboardEvent('keydown', { key: '=', bubbles: true, cancelable: true })); ok(/scale\(1\.25\)/.test(prev(w).style.transform), '"=" zooms in');
+  prev(w).dispatchEvent(new w.MouseEvent('click', { bubbles: true, button: 0 })); ok(!shownSrc(w), 'click on pinned image closes');
+  const kn = new w.KeyboardEvent('keydown', { key: '+', bubbles: true, cancelable: true }); w.dispatchEvent(kn); ok(!kn.defaultPrevented, '"+" ignored when not pinned');
   const ce2 = new w.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 }); w.document.body.dispatchEvent(ce2); ok(!ce2.defaultPrevented, 'right-click elsewhere keeps menu');
   over(w, 'a'); await sleep(400); ok(!shownSrc(w), 'compose attachments ignored');
   over(w, 'p', { shiftKey: true }); await sleep(400); ok(!shownSrc(w), 'Shift disables');
