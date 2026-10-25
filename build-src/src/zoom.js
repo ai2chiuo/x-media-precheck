@@ -58,7 +58,7 @@ function place() {
   box.style.top = Math.max(m, Math.min(cy - bh / 2, vh - m - bh)) + 'px';
 }
 
-const isOurs = el => el === host || (el && el.closest && el.closest('xnp-zoom-host,#xnp-panel,[data-testid="attachments"],[data-testid^="tweetTextarea_"]'));
+const isOurs = el => el === host || (el && el.closest && el.closest('xnp-zoom-host,#xnp-panel,[data-testid^="tweetTextarea_"]'));
 const bgUrl = el => { try { const b = getComputedStyle(el).backgroundImage; const m = b && b.match(/url\(["']?([^"')]+)["']?\)/); return m ? new URL(m[1], location.href).toString() : null; } catch (e) { return null; } };
 const abs = u => { try { return u ? new URL(u, location.href).toString() : null; } catch (e) { return null; } };
 const rectOf = el => { const r = el.getBoundingClientRect(); return { w: r.width, h: r.height }; };

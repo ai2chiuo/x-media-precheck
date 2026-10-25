@@ -22,7 +22,7 @@ const C = (w, id) => { const c = w.__xnpZoom.candidate(w.document.getElementById
 
 (async () => {
   // --- X ---
-  let w = page(`<article><div data-testid="tweetPhoto"><img id="p" data-w="300" data-h="200" src="https://pbs.twimg.com/media/AAA?format=jpg&name=small"></div></article><div data-testid="attachments"><img id="a" data-w="300" data-h="200" src="https://pbs.twimg.com/media/BBB?format=jpg&name=small"></div>`, 'https://x.com/home', {}, true);
+  let w = page(`<article><div data-testid="tweetPhoto"><img id="p" data-w="300" data-h="200" src="https://pbs.twimg.com/media/AAA?format=jpg&name=small"></div></article><div data-testid="attachments"><img id="a" data-w="300" data-h="200" src="https://pbs.twimg.com/media/BBB?format=jpg&name=small"><img id="bl" data-w="300" data-h="200" data-nw="1200" data-nh="800" src="blob:https://x.com/abc-123"></div>`, 'https://x.com/home', {}, true);
   await sleep(30); over(w, 'p'); await sleep(150); ok(!shownSrc(w), 'X: no preview before 300ms');
   await sleep(250); ok(shownSrc(w) === 'https://pbs.twimg.com/media/AAA?format=jpg&name=orig', 'X: preview uses name=orig');
   ok(w.document.querySelector('xnp-zoom-host').style.pointerEvents === 'none' && prev(w).style.pointerEvents !== 'auto', 'preview not interactive (pointer-events none)');
@@ -42,7 +42,10 @@ const C = (w, id) => { const c = w.__xnpZoom.candidate(w.document.getElementById
   prev(w).dispatchEvent(new w.MouseEvent('click', { bubbles: true, button: 0 })); ok(!shownSrc(w), 'click on pinned image closes');
   const kn = new w.KeyboardEvent('keydown', { key: '+', bubbles: true, cancelable: true }); w.dispatchEvent(kn); ok(!kn.defaultPrevented, '"+" ignored when not pinned');
   const ce2 = new w.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 }); w.document.body.dispatchEvent(ce2); ok(!ce2.defaultPrevented, 'right-click elsewhere keeps menu');
-  over(w, 'a'); await sleep(400); ok(!shownSrc(w), 'compose attachments ignored');
+  over(w, 'a'); await sleep(400); ok(shownSrc(w) === 'https://pbs.twimg.com/media/BBB?format=jpg&name=orig', 'compose attachments: preview shown');
+  w.document.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  over(w, 'bl'); await sleep(400); ok(shownSrc(w) === 'blob:https://x.com/abc-123', 'compose blob: image: preview shown at natural size');
+  w.document.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
   over(w, 'p', { shiftKey: true }); await sleep(400); ok(!shownSrc(w), 'Shift disables');
 
   // --- generic ---

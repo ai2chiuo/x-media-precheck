@@ -1,5 +1,8 @@
 # Changelog
 
+## Hover Image Zoom 1.0.2 — 2026-10-24
+- Hover zoom now also works on images attached in the X compose box (blob: previews), which were previously excluded.
+
 ## Hover Image Zoom 1.0.1 — 2026-10-23
 - Pinned preview: left-click on the image closes it (dragging the image out still works). `+` / `=` zoom in and `-` zoom out (keyboard).
 

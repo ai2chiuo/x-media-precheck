@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Hover Image Zoom",
   "short_name": "Hover Zoom",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Hover over an image on any site to preview it larger. Right-click to pin, wheel to zoom. 圖片懸停放大。",
   "permissions": [
     "storage"
